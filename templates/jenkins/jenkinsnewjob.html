@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+{% block css %}
+    <!-- Bootstrap -->
+    <link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="/static/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="/static/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <!-- bootstrap-wysiwyg -->
+    <link href="/static/vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
+    <!-- Select2 -->
+    <link href="/static/vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+    <!-- Switchery -->
+    <link href="/static/vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+    <!-- starrr -->
+    <link href="/static/vendors/starrr/dist/starrr.css" rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link href="/static/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="/static/build/css/custom.min.css" rel="stylesheet">
+{%endblock css%}
+
+{% block page_content %}
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Create Jenkins Job</h3>
+              </div>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>新增Job<small>(提示：新建的jobname为uat-install-servicename)</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    {% if error %}
+                        <div class="alert alert-danger text-center">
+                        <p class="font-16">{{ error }}</p>
+                        </div>
+                    {% endif %}
+                    {% if msg %}
+                        <div class="alert alert-success text-center">{{ msg | safe }}</div>
+                    {% endif %}
+                    {% if waring %}
+                        <div class="alert alert-warning text-center">{{waring}}</div>
+                    {% endif %}
+
+                    <form class="form-horizontal form-label-left input_mask" method="post">
+                      <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">ServiceType</label>
+                        <div class="col-md-2 col-sm-12 col-xs-12">
+                          <select name="servicetype" class="select2_group form-control">
+                            <optgroup label="ServiceType">
+                              <option value="service">service</option>
+                              <option value="war">web</option>
+                            </optgroup>
+                          </select>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">Servicename</label>
+                         <div class="col-md-3 col-sm-3 col-xs-12">
+                           <input type="text" class="form-control" name="servicename" required="required" placeholder="servicename">
+                         </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">Trunk/Branch</label>
+                        <div class="col-md-2 col-sm-12 col-xs-12">
+                          <select name="TrunkOrBranch" class="select2_group form-control">
+                              <option value=""></option>
+                              <option value="T">Trunk</option>
+                              <option value="B">Branch</option>
+                          </select>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">deploy_path</label>
+                         <div class="col-md-3 col-sm-3 col-xs-12">
+                           <input type="text" class="form-control" name="deploy_path" placeholder="deploy_path">
+                         </div>
+                        <small class="text-center">(不填写默认目录为：/home/username)</small>
+                       </div>
+
+                       <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">Env</label>
+                        <div class="col-md-2 col-sm-12 col-xs-12">
+                          <select name="environment" class="select2_group form-control">
+                              <option value=""></option>
+                              <option value="dev">dev</option>
+                              <option value="uat">uat</option>
+                              <option value="prd">prd</option>
+                          </select>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">tomcat_path</label>
+                         <div class="col-md-3 col-sm-3 col-xs-12">
+                           <input type="text" class="form-control" name="tomcat_path" placeholder="tomcat_path">
+                         </div>
+                        <small>(不填写默认目录为：/data/ftp/tomcat-servicename)</small>
+                      </div>
+                      
+                      <div class="form-group">
+                      <label class="control-label col-md-1 col-sm-2 col-xs-12">Product</label>
+                        <div class="col-md-2 col-sm-12 col-xs-12">
+                          <select name="product" class="select2_group form-control">
+                            <optgroup>
+                              <option></option>
+                              <option value="med">med</option>
+                              <option value="yun">yun</option>
+                              <option value="openapi">openapi</option>
+                              <option value="dct">dct</option>
+                              <option value="fee">fee</option>
+                              <option value="udb">udb</option>
+                              <option value="prp">prp</option>
+                              <option value="common">common</option>
+                              <option value="plat">plat</option>
+                              <option value="sync">sync</option>
+                              <option value="msc">msc</option>
+                            </optgroup>
+                          </select>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">Nickname</label>
+                         <div class="col-md-3 col-sm-3 col-xs-12">
+                           <input type="text" class="form-control" id="inputSuccess5" name="nickname" placeholder="nickname">
+                         </div>
+                        <small>(如只新增数据库部署到对应服务器则不用填写)</small>
+                     </div>
+
+                      <div class="form-group">
+                      <label class="control-label col-md-1 col-sm-2 col-xs-12">Log Level</label>
+                        <div class="col-md-2 col-sm-12 col-xs-12">
+                          <select name="log_level" class="select2_group form-control">
+                            <optgroup>
+                              <option value="INFO">INFO</option>
+                              <option value="ERROR">ERROR</option>
+                              <option value="DEBUG">DEBUG</option>
+                            </optgroup>
+                          </select>
+                        </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Basejobname</label>
+                         <div class="col-md-3 col-sm-3 col-xs-12">
+                           <input type="text" class="form-control" name="base_install_job_name" placeholder="base_install_job_name">
+                         </div>
+                        <small>(填写已建好的base install job，可以为空)</small>
+                      </div>
+
+                      <div class="form-group">
+                      <label class="control-label col-md-1 col-sm-2 col-xs-12">User</label>
+                        <div class="col-md-2 col-sm-12 col-xs-12">
+                          <input type="text" class="form-control" name="serverusername" placeholder="serverusername">
+                          <!--select name="serverusername" class="select2_group form-control">
+                            <optgroup>
+                              <option></option>
+                              <option value="hsyun">hsyun</option>
+                              <option value="hswk">hswk</option>
+                            </optgroup>
+                          </select-->
+                        </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Sever Ip</label>
+                         <div class="col-md-3 col-sm-3 col-xs-12">
+                           <input type="text" class="form-control" id="inputSuccess5" name="serverip" placeholder="ip address">
+                         </div>
+                        <small>(部署的服务器ip地址，可填写多个以逗号隔开，不新增部署请不要填写)</small>
+                      </div>
+
+                      <div class="form-group">
+                      <label class="control-label col-md-1 col-sm-2 col-xs-12">Svn_Address</label>
+                      <div class="col-md-8 col-sm-8 col-xs-12 ">
+                        <input type="text" class="form-control" id="Projectname" name="svn_address"  placeholder="svn_address" >
+                      </div>
+                     </div>
+                      <div class="form-group">
+                          <label class="control-label col-md-1 col-sm-2 col-xs-12"></label>
+                             <div class="col-md-3 col-sm-3 col-xs-12 ">
+                              <input type="checkbox" class="flat" name="newjenkinsjobflag" value="True"> Create New Jenkins Job</input>
+                             </div>
+                             <div class="col-md-3 col-sm-3 col-xs-12 ">
+                              <input type="checkbox" class="flat" name="adddatabaseflag" value="True"> Add To Database</input>
+                             </div>
+                      </div>
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-1">
+			  <button class="btn btn-primary" type="reset">重置</button>
+                          <button id="install" type="submit" class="btn btn-success">提交</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+        </div>
+        <!-- /page content -->
+{% endblock page_content %}
+
+{% block jQuery %}
+    <!-- jQuery -->
+    <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="/static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="/static/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="/static/vendors/nprogress/nprogress.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="/static/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="/static/vendors/iCheck/icheck.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="/static/vendors/moment/min/moment.min.js"></script>
+    <script src="/static/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap-wysiwyg -->
+    <script src="/static/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+    <script src="/static/vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+    <script src="/static/vendors/google-code-prettify/src/prettify.js"></script>
+    <!-- jQuery Tags Input -->
+    <script src="/static/vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+    <!-- Switchery -->
+    <script src="/static/vendors/switchery/dist/switchery.min.js"></script>
+    <!-- Select2 -->
+    <script src="/static/vendors/select2/dist/js/select2.full.min.js"></script>
+    <!-- Parsley -->
+    <script src="/static/vendors/parsleyjs/dist/parsley.min.js"></script>
+    <!-- Autosize -->
+    <script src="/static/vendors/autosize/dist/autosize.min.js"></script>
+    <!-- jQuery autocomplete -->
+    <script src="/static/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+    <!-- starrr -->
+    <script src="/static/vendors/starrr/dist/starrr.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="/static/build/js/custom.min.js"></script>
+<script type="text/javascript"> 
+//$('#install').click(function () {
+/*$(document).ready(function() {
+var ws = new WebSocket("ws://localhost:9999{% url 'jbuild_prog' %}");
+var servicename=$('#Projectname').val();
+console.log(servicename);
+ws.onopen = function()
+
+{  console.log("open");
+
+  ws.send(servicename);
+
+};
+
+ws.onmessage = function(evt)
+
+{
+  if (evt.data<100) {
+  console.log(evt.data)
+  ws.send(servicename);
+  $('#prog').css("width",evt.data+"%").txt(evt.data+"%");    
+  refreshtohome(1000, "");
+  }
+
+};
+
+ws.onclose = function(evt)
+
+{
+
+  console.log("WebSocketClosed!");
+
+};
+
+ws.onerror = function(evt)
+
+{
+
+  console.log("WebSocketError!");
+
+};
+})
+*/
+</script>
+
+{% endblock jQuery %}

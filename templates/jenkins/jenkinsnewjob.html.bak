@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% block css %}
+    <!-- Bootstrap -->
+    <link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="/static/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="/static/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <!-- bootstrap-wysiwyg -->
+    <link href="/static/vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
+    <!-- Select2 -->
+    <link href="/static/vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+    <!-- Switchery -->
+    <link href="/static/vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+    <!-- starrr -->
+    <link href="/static/vendors/starrr/dist/starrr.css" rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link href="/static/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="/static/build/css/custom.min.css" rel="stylesheet">
+{%endblock css%}
+
+{% block page_content %}
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Create Jenkins Job</h3>
+              </div>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>新增Job<small>(提示：新建的jobname为uat-install-servicename)</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    {% if error %}
+                        <div class="alert alert-danger text-center">
+                        <p class="font-16">{{ error }}</p>
+                        </div>
+                    {% endif %}
+                    {% if msg %}
+                        <div class="alert alert-success text-center">{{ msg | safe }}</div>
+                    {% endif %}
+
+                    <form class="form-horizontal form-label-left input_mask"  method="post">
+                      <div class="form-group">
+                        <label class="control-labe1 col-md-1 col-sm-2 col-xs-12">ServiceType</label>
+                        <div class="col-md-2 col-sm-4 col-xs-12">
+                          <select name="servicename" class="select2_group form-control">
+                            <optgroup>
+                              <option value="service">service</option>
+                              <option value="web">web</option>
+                            </optgroup>
+                          </select>
+                        </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">ServiceName</label>
+                         <div class="col-md-4 col-sm-4 col-xs-12">
+                           <input type="text" class="form-control" id="inputSuccess5" name="servicename" required="required" placeholder="ServiceName">
+                         </div>
+                     </div>
+                      <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12 ">
+                              <input type="checkbox" class="flat" checked="checked" name="newjobflag" value="True">Create a new Jenkins Job</input>
+                              <!--input type="checkbox" class="js-switch" checked="checked">激活</input-->
+                            </label>
+                            <!--label class="control-label col-md-2 col-sm-3 col-xs-12">
+                              <input type="checkbox" class="flat" checked="checked" name="Deployflag" value="True">Deploy</input>
+                            </label-->
+                      </div>
+
+
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-1">
+			  <button class="btn btn-primary" type="reset">重置</button>
+                          <button type="submit" name="createjenkinsjob" class="btn btn-success">提交</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+            <div class="row">
+              <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>新增Jenkins数据库配置</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  
+                  <div class="x_content">
+
+                    <form class="form-horizontal form-label-left input_mask" id="install_form" method="post">
+                      <div class="form-group">
+                      <label class="control-labe1 col-md-1 col-sm-2 col-xs-12">ServiceType</label>
+                        <div class="col-md-2 col-sm-12 col-xs-12">
+                          <select name="servicename" class="select2_group form-control">
+                            <optgroup>
+                              <option value="service">service</option>
+                              <option value="web">web</option>
+                            </optgroup>
+                          </select>
+                        </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">ServiceName</label>
+                         <div class="col-md-4 col-sm-4 col-xs-12">
+                           <input type="text" class="form-control" id="inputSuccess5" name="servicename" required="required" placeholder="ServiceName">
+                         </div>
+                     </div>
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-1">
+			  <button class="btn btn-primary" type="reset">重置</button>
+                          <button id="install" type="submit" name="addjobtodatabase" class="btn btn-success">提交</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+        </div>
+        <!-- /page content -->
+{% endblock page_content %}
+
+{% block jQuery %}
+    <!-- jQuery -->
+    <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="/static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="/static/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="/static/vendors/nprogress/nprogress.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="/static/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="/static/vendors/iCheck/icheck.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="/static/vendors/moment/min/moment.min.js"></script>
+    <script src="/static/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap-wysiwyg -->
+    <script src="/static/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+    <script src="/static/vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+    <script src="/static/vendors/google-code-prettify/src/prettify.js"></script>
+    <!-- jQuery Tags Input -->
+    <script src="/static/vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+    <!-- Switchery -->
+    <script src="/static/vendors/switchery/dist/switchery.min.js"></script>
+    <!-- Select2 -->
+    <script src="/static/vendors/select2/dist/js/select2.full.min.js"></script>
+    <!-- Parsley -->
+    <script src="/static/vendors/parsleyjs/dist/parsley.min.js"></script>
+    <!-- Autosize -->
+    <script src="/static/vendors/autosize/dist/autosize.min.js"></script>
+    <!-- jQuery autocomplete -->
+    <script src="/static/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+    <!-- starrr -->
+    <script src="/static/vendors/starrr/dist/starrr.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="/static/build/js/custom.min.js"></script>
+
+{% endblock jQuery %}

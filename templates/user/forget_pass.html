@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Oms Login</title>
+
+    <!-- Bootstrap -->
+    <link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="/static/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="/static/vendors/animate.css/animate.min.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="/static/build/css/custom.min.css" rel="stylesheet">
+  </head>
+
+  <body class="login">
+    <div>
+      <div class="login_wrapper">
+
+        <div class="animate form login_form">
+          <section class="login_content">
+            <form name="forget_pass" action="{% url 'forget_pass' %}" method="post">
+              <h1>Forget Password</h1>
+                   {% if error %}
+                     <div>
+                          <span style="color:#F5584D;font-size:16px">
+                          {{error}}
+                          </span>
+                     </div>
+                   {%endif%}
+                   {% if msg %}
+                        <div class="text-center"><p><span style="color:green;font-size:16px">{{ msg | safe }}</span></p>
+                        </div>
+                   {% endif %}
+
+              <div>
+                <input type="text" class="form-control" name="Username" placeholder="Username" required="required" />
+              </div>
+              <div>
+                <input type="text" class="form-control" name="Real_name" placeholder="Real_name" required="required" />
+              </div>
+              <div>
+                <input type="email" class="form-control" name="Email" placeholder="Email" required="required" />
+              </div>
+              <div>
+                <!--a class="btn btn-default submit" href="{% url 'forget_pass' %}">提交</a-->
+                <button class="btn btn-default submit" type="submit">提交</button>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">密码想起来了,
+                  <a href="{% url 'login' %}" class="to_register">返回登录</a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-paw"></i> Operation Management</h1>
+                  <p>hsyuntai©2017 All Rights Reserved.</p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

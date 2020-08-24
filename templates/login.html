@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Oms Login</title>
+
+    <!-- Bootstrap -->
+    <link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="/static/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="/static/vendors/animate.css/animate.min.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="/static/build/css/custom.min.css" rel="stylesheet">
+  </head>
+
+  <body class="login">
+    <div>
+      <a class="hiddenanchor" id="rest_password"></a>
+      <a class="hiddenanchor" id="signin"></a>
+
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+            <form id="login" action="/login/" method="post">
+              {% csrf_token %}
+              <h1>Login OMS</h1>
+                   {% if error %}
+                     <div>
+                          <span style="color:#F5584D;font-size:16px">
+                          {{error}}
+                          </span>
+                     </div>
+                   {%endif%}
+                   {% if msg %}
+                        <div class="text-center"><p><span style="color:green;font-size:16px">{{ msg | safe }}</span></p>
+                        </div>
+                   {% endif %}
+
+              <div>
+                <label for="Username">
+                </label>
+                <input type="text" class="form-control" name="Username" placeholder="Username" required="true" />
+              </div>
+              <div>
+                <label for="Password">
+                </label>
+                <input type="password" class="form-control" name="Password" placeholder="Password" required="true" />
+              </div>
+              <div>
+                <button class="btn btn-default submit" type="submit">登录</button>
+                <!--p class="change_link">
+                <a class="reset_pass" href="#rest_password">Lost your password?</a>
+                <a class="reset_pass" href="#rest_password">Lost your password?</a>
+               </p>--> 
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">Lost your password?
+                  <a href="{% url 'forget_pass' %}" class="to_register">忘记密码</a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-openid"></i> Operation Management</h1>
+                  <p>hsyuntai©2017 All Rights Reserved. </p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+
+        <div id="register" class="animate form registration_form">
+          <section class="login_content">
+            <form name="forget_pass" action="{% url 'forget_pass' %}" method="post">
+              <h1>Forget Password</h1>
+                   {% if error %}
+                     <div>
+                          <span style="color:#F5584D;font-size:16px">
+                          {{error}}
+                          </span>
+                     </div>
+                   {%endif%}
+                   {% if msg %}
+                        <div class="text-center"><p><span style="color:green;font-size:16px">{{ msg | safe }}</span></p>
+                        </div>
+                   {% endif %}
+
+              <div>
+                <input type="text" class="form-control" name="Username" placeholder="Username" required="required" />
+              </div>
+              <div>
+                <input type="text" class="form-control" name="Real_name" placeholder="Real_name" required="required" />
+              </div>
+              <div>
+                <input type="email" class="form-control" name="Email" placeholder="Email" required="required" />
+              </div>
+              <div>
+                <!--a class="btn btn-default submit" href="{% url 'forget_pass' %}">提交</a-->
+                <button class="btn btn-default submit" type="submit">提交</button>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">密码想起来了,
+                  <a href="#signin" class="to_register">返回登录</a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-paw"></i> Operation Management</h1>
+                  <p>hsyuntai©2017 All Rights Reserved.</p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

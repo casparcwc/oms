@@ -1,0 +1,189 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>OMS</title>
+    <!-- 引入 echarts.js -->
+    <script src="/static/documentation/js/echarts.min.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    {% if datakeys and datavalues %}
+    <div id="data7" style="width: auto;height:600px;"></div>
+    {%else%}
+    <p>没有数据</p>
+    {%endif%}
+    {% if datakeys1 and datavalues1 %}
+    <div id="data1" style="width: 600px;height:600px;"></div>
+    {%endif%}
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('data7'));
+        // 指定图表的配置项和数据
+       
+        var colors = ['#5793f3', '#888888'];
+        var option = {
+                 //color: ['#3398DB'],
+                 color: colors,
+                 tooltip : {
+                     trigger: 'axis',
+                     axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                         type : 'line'        // 默认为直线，可选为：'line' | 'shadow'
+                     }
+                 },
+                 toolbox: {
+                       show : true,
+                       padding: 30,
+                       feature : {
+                           magicType : {show: true, type: ['line', 'bar']},
+                       }
+                   },
+                 title: {
+                     show : true,
+                     text: '服务发布次数统计-7天',
+                     x: 'center',
+                     y: 'top',
+                 },
+                 //legend: {
+                 //        data:['7天发布次数','1天发布次数']
+                 //    },
+                                  //grid: {
+                 //    left: '3%',
+                 //    right: '4%',
+                 //    bottom: '3%',
+                 //    containLabel: true
+                 //},
+                 grid: {
+                 x: 80,
+                 x2: 80,
+                 y: 60,
+                 y2: 200,
+                 },
+                 xAxis : [
+                     {
+                         type : 'category',
+                         axisLabel: {
+                                     rotate: 60,
+                                     interval: 0,
+                                             },
+                         
+                         data : {{ datakeys|safe }},
+                         axisTick: {
+                             alignWithLabel: true,
+                             //interval: 0,
+                             //rotate: 60
+                         }
+                     }
+                 ],
+                 yAxis : [
+                     {
+                         type : 'value',
+                         axisLine: {
+                            lineStyle: {
+                                color: colors[0]
+                            },
+                        },
+                     },
+                     
+                 ],
+                 series : [
+                     {
+                         name:'7天发布次数',
+                         type:'bar',
+                         barWidth: '60%',
+                         data: {{ datavalues|safe }},
+                     },
+                 ]
+             };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+    </script>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('data1'));
+        // 指定图表的配置项和数据
+       
+        var colors = ['#5793f3', '#888888'];
+        var option = {
+                 //color: ['#3398DB'],
+                 color: colors,
+                 tooltip : {
+                     trigger: 'axis',
+                     axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                         type : 'line'        // 默认为直线，可选为：'line' | 'shadow'
+                     }
+                 },
+                 toolbox: {
+                       show : true,
+                       padding: 30,
+                       feature : {
+                           magicType : {show: true, type: ['line', 'bar']},
+                       }
+                   },
+                 title: {
+                     show : true,
+                     text: '服务发布次数统计-1天',
+                     x: 'center',
+                     y: 'top',
+                 },
+                 //legend: {
+                 //        data:['7天发布次数','1天发布次数']
+                 //    },
+                                  //grid: {
+                 //    left: '3%',
+                 //    right: '4%',
+                 //    bottom: '3%',
+                 //    containLabel: true
+                 //},
+                 grid: {
+                 x: 80,
+                 x2: 80,
+                 y: 60,
+                 y2: 200,
+                 },
+                 xAxis : [
+                     {
+                         type : 'category',
+                         axisLabel: {
+                                     rotate: 60,
+                                     interval: 0,
+                                             },
+                         
+                         data : {{ datakeys1|safe }},
+                         axisTick: {
+                             alignWithLabel: true,
+                             //interval: 0,
+                             //rotate: 60
+                         }
+                     }
+                 ],
+                 yAxis : [
+                     {
+                         type : 'value',
+                         axisLine: {
+                            lineStyle: {
+                                color: colors[0]
+                            },
+                        },
+                     },
+                     
+                 ],
+                 series : [
+                     {
+                         name:'1天发布次数',
+                         type:'bar',
+                         barWidth: '60%',
+                         data: {{ datavalues1|safe }},
+                     },
+                 ]
+             };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+    </script>
+</body>
+</html>

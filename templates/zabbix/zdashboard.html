@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+{%block css%}
+    <!-- Bootstrap -->
+    <link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="/static/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- bootstrap-progressbar -->
+    <link href="/static/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link href="/static/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="/static/build/css/custom.min.css" rel="stylesheet">
+{%endblock css%}
+{%block page_content%}
+         <div class="right_col" role="main">
+           <div class="row">
+
+           <!-- top tiles -->
+             <div class="row tile_count">
+               <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                 <span class="count_top">数据采集速率</span>
+                 <div class="count green">{{qpsdata.qps|floatformat:"2"}}</div>
+                 <span class="count_bottom ">个/每秒</span>
+               </div>
+               <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                 <span class="count_top">当前设备数量</span>
+                 <div class="count green">{{hosts_count.hosts_count}}</div>
+                 <span class="count_bottom"></span>
+               </div>
+               <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                 <span class="count_top">当前redis连接数</span>
+                 <div class="count green">{{redis_clients.value}}</div>
+               </div>
+               <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                 <span class="count_top">当前mysql连接数</span>
+                 <div class="count green">4567</div>
+               </div>
+               <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                 <span class="count_top">当天挂号总量</span>
+                 <div class="count green">12315</div>
+               </div>
+               <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                 <span class="count_top">当天交易额</span>
+                 <div class="count green">7325</div>
+               </div>
+             </div>
+             <!-- /top tiles -->
+
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <div class="x_panel tile fixed_height_320 overflow_hidden">
+                <div class="x_title">
+                  <h2>当前故障级别</h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Settings 1</a>
+                        </li>
+                        <li><a href="#">Settings 2</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div id="zttable" class="x_content">
+                  <table id="template" class="template" style="width:100%">
+                    <!--tr>
+                      <th style="width:50%;">
+                        <p>Top 5</p>
+                      </th>
+                      <th>
+                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                          <p class="">Device</p>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                          <p class="">Progress</p>
+                        </div>
+                      </th>
+                    </tr-->
+                    <tr>
+                      <td>
+                        <table class="tile_info ">
+                          <tr><td><p>
+                          <i class="fa fa-square" style="color:#E45959"></i>
+                          灾难&nbsp;&nbsp;&nbsp;&nbsp;{{ztigger_dict.disaster}}
+                          </p></td></tr>
+                          <tr><td><p>
+                          <i class="fa fa-square" style="color:#E97659"></i>
+                          严重&nbsp;&nbsp;&nbsp;&nbsp;{{ztigger_dict.high}}
+                          </p></td></tr>
+                          <tr><td><p>
+                          <i class="fa fa-square" style="color:#FFA059"></i>
+                          一般&nbsp;&nbsp;&nbsp;&nbsp;{{ztigger_dict.average}}
+                          </p></td></tr>
+                          <tr><td><p>
+                          <i class="fa fa-square" style="color:#FFC859"></i>
+                          警告&nbsp;&nbsp;&nbsp;&nbsp;{{ztigger_dict.warring}}
+                          </p></td></tr>
+                          <tr><td><p>
+                          <i class="fa fa-square" style="color:#7499FF"></i>
+                          信息&nbsp;&nbsp;&nbsp;&nbsp;{{ztigger_dict.information}}
+                          </p></td></tr>
+                          <tr><td><p>
+                          <i class="fa fa-square" style="color:#97AAB3"></i>
+                          提示&nbsp;&nbsp;&nbsp;&nbsp;{{ztigger_dict.notclassfield}}
+                        </table>
+                      </td>
+                      <td>
+                        <canvas id="Dashgraph" height="250" width="250"></canvas>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div> 
+
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>当前故障列表</h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Settings 1</a>
+                        </li>
+                        <li><a href="#">Settings 2</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <div class="dashboard-widget-content">
+
+                    <ul class="list-unstyled timeline widget">
+                      {% for zda in ztrigger_data %}
+                      <li>
+                        <div class="block">
+                          <div class="block_content">
+                            <h2 class="title">
+                                              <a>{{zda.name}}：{{zda.description}}</a>
+                                          </h2>
+                            <p class="excerpt">
+                             Host：{{zda.host}}</br>Ip：{{zda.ip}}</br>Acknowledged：{{zda.acknowledged}}</br>Level：{{zda.priority}}
+                            </p>
+                            <div class="byline">
+                              <span>{{zda.lasttime}}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div> 
+       </div> 
+{%endblock page_content%}
+{%block jQuery%}
+    <!-- jQuery -->
+    <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="/static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="/static/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="/static/vendors/nprogress/nprogress.js"></script>
+    <!-- Chart.js -->
+    <script src="/static/vendors/Chart.js/dist/Chart.min.js"></script>
+    <script src="/static/documentation/js/echarts.min.js"></script>
+    <!-- gauge.js -->
+    <script src="/static/vendors/gauge.js/dist/gauge.min.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="/static/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="/static/vendors/iCheck/icheck.min.js"></script>
+    <!-- Skycons -->
+    <script src="/static/vendors/skycons/skycons.js"></script>
+    <!-- Flot -->
+    <script src="/static/vendors/Flot/jquery.flot.js"></script>
+    <script src="/static/vendors/Flot/jquery.flot.pie.js"></script>
+    <script src="/static/vendors/Flot/jquery.flot.time.js"></script>
+    <script src="/static/vendors/Flot/jquery.flot.stack.js"></script>
+    <script src="/static/vendors/Flot/jquery.flot.resize.js"></script>
+    <!-- Flot plugins -->
+    <script src="/static/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+    <script src="/static/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+    <script src="/static/vendors/flot.curvedlines/curvedLines.js"></script>
+    <!-- DateJS -->
+    <script src="/static/vendors/DateJS/build/date.js"></script>
+    <!-- JQVMap -->
+    <script src="/static/vendors/jqvmap/dist/jquery.vmap.js"></script>
+    <script src="/static/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+    <script src="/static/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="/static/vendors/moment/min/moment.min.js"></script>
+    <script src="/static/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="/static/build/js/custom.min.js"></script>
+{%endblock jQuery%}
+

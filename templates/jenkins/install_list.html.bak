@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+{% block css %}
+    <!-- Bootstrap -->
+    <link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">    
+    <!-- Font Awesome -->
+    <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">     
+    <!-- NProgress -->
+    <link href="/static/vendors/nprogress/nprogress.css" rel="stylesheet">    <!-- iCheck -->
+    <link href="/static/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+            <!-- Custom Theme Style -->
+    <link href="/static/build/css/custom.min.css" rel="stylesheet">
+
+   <!-- Datatables -->    <link href="/static/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="/static/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="/static/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="/static/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="/static/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+
+{%endblock css%}
+
+{% block page_content %}
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="row tile_count">
+            <!--div class="page-title">
+              <div class="title_left">
+                <h3>Install&Deploy</h3>
+              </div>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            -->
+            <div class="clearfix"></div>
+
+            <div class="row" id="install_list">
+              <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>更新列表</h2>
+                    <!--button class="btn btn-sm btn-success" data-toggle="modal" data-target="#myModal" id="install_prog">查看进度</button-->
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+                    {% if error %}
+                        <div class="alert alert-danger text-center">
+                        <p class="font-16">{{ error }}</p>
+                        </div>
+                    {% endif %}
+                    {% if msg %}
+                        <div class="alert alert-success text-center">{{ msg | safe }}</div>
+                    {% endif %}
+                      <div class="table-responsive">
+                       <table id="datatable" class="table table-striped table-bordered">
+                       <!--table class="shiftCheckbox" id="datatable-buttons" class="table table-striped table-bordered bulk_action"-->
+                         <thead>
+                           <tr>
+                             <th class="text-center" >服务名</th>
+                             <th class="text-center" >构建进度</th>
+                             <th class="text-center" >构建结果</th>
+                             <th class="text-center" >部署结果</th>
+                             <th class="text-center" >操作</th>
+                           </tr>
+                         </thead>
+                             <tbody>
+                               <!--tr class="even pointer"-->
+                             {%if servicestatus.iteritems%}
+                              {% for name,value in servicestatus.iteritems %}
+                               <tr id="install_list" class="headings">
+                                 <td class="text-center">{{name}}</td>
+                                 
+                                 <td class="text-center">
+                                    <div class="progress progress-striped active">
+                                    	<div id="prog_bar" class="progress-bar progress-bar-success" role="progressbar"
+                                    		 aria-valuenow="" aria-valuemin="0" aria-valuemax="100"
+                                    		 style="width: {{value.prognu}}%;">{{value.prognu}}%
+                                    	</div>
+                                    </div>
+                                 </td>
+                                 <td class="text-center" {% if value.build_status != 'SUCCESS' %} style="color:red" {%else%}style="color:green" {%endif%}>{{value.build_status}}</td>
+                                 <td class="text-center" {% if value.deploy_status != 'SUCCESS' %} style="color:red" {%else%}style="color:green" {%endif%}>{{value.deploy_status}}</td>
+                                 <td class="text-center">
+                                    <a href="{% url 'jenkinsconsole' %}?servicename={{name}}" class="btn btn-xs btn-info">构建查询</a>
+                                    <!--a href="{{url_list}}" class="btn btn-xs btn-info">下载</a-->
+                                </td>
+                               </tr>
+                               {%endfor%}
+                               {%else%}
+                                      {%for servicename in servicelist%}
+                                        <tr id="install_list" class="headings">
+                                        <td class="text-center">{{servicename}}</td>
+                                        <td class="text-center">
+                                           <div class="progress progress-striped active">
+                                               <div id="prog_bar" class="progress-bar progress-bar-success" role="progressbar"
+                                                        aria-valuenow="" aria-valuemin="0" aria-valuemax="100"
+                                                        style="width: 0%;">0%
+                                               </div>
+                                           </div>
+                                        </td>
+                                        <td class="text-center" style="color:red" >building</td>
+                                        <td class="text-center">
+                                           <a href="{% url 'jenkinsconsole' %}?servicename={{servicename}}" class="btn btn-xs btn-info">构建查询</a>
+                                           <!--a href="{{url_list}}" class="btn btn-xs btn-info">下载</a-->
+                                       </td>
+                                     </tr>
+                                      {%endfor%}
+                                 {%endif%}
+                         </tbody>
+                       </table>
+                   </div> 
+          </div>
+        </div>
+        <!-- /page content -->
+{% endblock page_content %}
+
+{% block jQuery %}
+    <!-- jQuery -->
+    <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="/static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="/static/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="/static/vendors/nprogress/nprogress.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="/static/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="/static/vendors/iCheck/icheck.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="/static/vendors/moment/min/moment.min.js"></script>
+    <script src="/static/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap-wysiwyg -->
+    <script src="/static/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+    <script src="/static/vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+    <script src="/static/vendors/google-code-prettify/src/prettify.js"></script>
+    <!-- jQuery Tags Input -->
+    <script src="/static/vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+    <!-- Switchery -->
+    <script src="/static/vendors/switchery/dist/switchery.min.js"></script>
+    <!-- Select2 -->
+    <script src="/static/vendors/select2/dist/js/select2.full.min.js"></script>
+    <!-- Parsley -->
+    <script src="/static/vendors/parsleyjs/dist/parsley.min.js"></script>
+    <!-- Autosize -->
+    <script src="/static/vendors/autosize/dist/autosize.min.js"></script>
+    <!-- jQuery autocomplete -->
+    <script src="/static/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+    <!-- starrr -->
+    <script src="/static/vendors/starrr/dist/starrr.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="/static/build/js/custom.min.js"></script>
+<script type="text/javascript"> 
+$('#install_prog').click(function () {
+//$(document).ready(function() {
+   var leng = $("#datatable tr").length; 
+   var servicenames = new Array(); 
+   for(var i=1; i<leng; i++){ 
+    servicename = $("#datatable tr").eq(i).find("td:first").html(); 
+    servicenames.push(servicename); 
+   };
+
+    console.log("servicename:"+servicenames);
+    //if ($('#prog_bar').css("width","0%")){ 
+       var ws = new WebSocket("ws://localhost:9999{% url 'jbuild_prog' %}");
+       ws.onopen = function(){
+         console.log("open websocket");
+         //ws.send(servicenames);
+       };
+   
+       ws.onmessage = function(evt){ 
+        console.log(evt.data)
+        $('#prog_bar').css("width",evt.data+"%").text(evt.data+"%"); 
+         refreshtohome(1000, "");
+      };
+   
+       ws.onclose = function(evt){
+          //ws.reconnect()
+          console.log("WebSocketClosed! and reconnect");
+      };
+   
+      ws.onerror = function(evt){
+       console.log("WebSocketError!");
+      };
+  
+//  };
+})
+</script>
+
+{% endblock jQuery %}

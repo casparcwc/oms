@@ -1,0 +1,453 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block css%}
+    <!-- Bootstrap -->
+    <link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="/static/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link href="/static/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="/static/build/css/custom.min.css" rel="stylesheet">
+ {%endblock css%}
+
+ {% block page_content %}
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Jenkins<small></small></h3>
+              </div>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+             {% if error %}
+                <div class="alert alert-danger text-center">
+                    <p class="font-16">{{ error }}</p>
+                </div>
+             {% endif %}
+
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Jenkins Uat<small></small></h2>
+                      <div class="col-md-6">
+                        <form class="form-horizontal form-label-left input_mask" method="post">
+                            <div class="control-group col-md-8">
+                              <div class="controls">
+                                <div class="input-prepend input-group">
+                                  <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                  <input type="text" name="select_time" id="reservation-time" class="form-control" {%if time %} value="{{time}}" {%endif%}/>
+                                </div>
+                              </div>
+                            </div>
+                          <div class="form-group col-md-2">
+                             <button id="seljenkins" type="submit" name="seljenkins" class="btn btn-success btnselect">查询</button>
+                          </div>
+                        </form>
+                       </div>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                   </div>
+                  
+                  <div class="x_content">
+                    {% if datakeys and datavalues %}
+                   <!--      <fieldset>
+                          <div class="control-group">
+                            <div class="controls">
+                              <div class="col-md-11 xdisplay_inputx form-group has-feedback">
+                                <input type="text" class="form-control has-feedback-left" id="single_cal3" placeholder="First Name" aria-describedby="inputSuccess2Status3">
+                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                                <span id="inputSuccess2Status3" class="sr-only">(success)</span>
+                              </div>
+                            </div>
+                          </div>
+                        </fieldset>
+                      -->
+                    <div id="data7" style="width: auto;height:400px;"></div>
+                    <!--canvas id="data7"></canvas-->
+                    {%else%}
+                    <p>没有数据</p>
+                    {%endif%}
+                  </div>
+                 </div>
+                </div>
+               </div>
+             
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Jenkins Prd<small></small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    {% if datakeys1 and datavalues1 %}
+                    <div id="data1" style="width: auto;height:400px;"></div>
+                    {%else%}
+                    <p>没有数据</p>
+                    {%endif%}
+
+                    <!--canvas id="mybarChart"></canvas-->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+<!--            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Radar <small>Sessions</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <canvas id="canvasRadar"></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Donut Graph <small>Sessions</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <canvas id="canvasDoughnut"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Pie Graph Chart <small>Sessions</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <canvas id="pieChart"></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Pie Area Graph <small>Sessions</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <canvas id="polarArea"></canvas>
+                  </div>
+                </div>
+              </div>
+
+-->
+
+
+          </div>
+        </div>
+        <!-- page content -->
+    {% endblock page_content %}
+
+    {% block jQuery %}
+    <!-- jQuery -->
+    <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="/static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="/static/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="/static/vendors/nprogress/nprogress.js"></script>
+    <!-- Chart.js -->
+    <script src="/static/vendors/Chart.js/dist/Chart.min.js"></script>
+    <script src="/static/documentation/js/echarts.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="/static/vendors/moment/min/moment.min.js"></script>
+    <script src="/static/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="/static/build/js/custom.min.js"></script>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('data7'));
+        // 指定图表的配置项和数据
+       
+        var colors = ['#5793f3', '#888888'];
+        var option = {
+                 //color: ['#3398DB'],
+                 color: colors,
+                 tooltip : {
+                     trigger: 'axis',
+                     axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                         type : 'line'        // 默认为直线，可选为：'line' | 'shadow'
+                     }
+                 },
+                 toolbox: {
+                       show : true,
+                       padding: 30,
+                       feature : {
+                           magicType : {show: true, type: ['line', 'bar']},
+                       }
+                   },
+                 title: {
+                     show : true,
+                     text: '服务发布次数统计-Uat',
+                     x: 'center',
+                     y: 'top',
+                 },
+                 //legend: {
+                 //        data:['7天发布次数','1天发布次数']
+                 //    },
+                                  //grid: {
+                 //    left: '3%',
+                 //    right: '4%',
+                 //    bottom: '3%',
+                 //    containLabel: true
+                 //},
+                 grid: {
+                 x: 80,
+                 x2: 80,
+                 y: 60,
+                 y2: 200,
+                 },
+                 xAxis : [
+                     {
+                         type : 'category',
+                         axisLabel: {
+                                     rotate: 60,
+                                     interval: 0,
+                                             },
+                         
+                         data : {{ datakeys|safe }},
+                         axisTick: {
+                             alignWithLabel: true,
+                             //interval: 0,
+                             //rotate: 60
+                         }
+                     }
+                 ],
+                 yAxis : [
+                     {
+                         type : 'value',
+                         axisLine: {
+                            lineStyle: {
+                                color: colors[0]
+                            },
+                        },
+                     },
+                     
+                 ],
+                 series : [
+                     {
+                         name:'发布次数',
+                         type:'bar',
+                         barWidth: '60%',
+                         label: {normal: {show: true, position: 'Top',offset:[3,-5]}},
+                         data: {{ datavalues|safe }},
+                     },
+                 ]
+             };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+    </script>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('data1'));
+        // 指定图表的配置项和数据
+       
+        var colors = ['#5793f3', '#888888'];
+        var option = {
+                 //color: ['#3398DB'],
+                 color: colors,
+                 tooltip : {
+                     trigger: 'axis',
+                     axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                         type : 'line'        // 默认为直线，可选为：'line' | 'shadow'
+                     }
+                 },
+                 toolbox: {
+                       show : true,
+                       padding: 30,
+                       feature : {
+                           magicType : {show: true, type: ['line', 'bar']},
+                       }
+                   },
+                 title: {
+                     show : true,
+                     text: '服务发布次数统计-Prd',
+                     x: 'center',
+                     y: 'top',
+                 },
+                 //legend: {
+                 //        data:['7天发布次数','1天发布次数']
+                 //    },
+                                  //grid: {
+                 //    left: '3%',
+                 //    right: '4%',
+                 //    bottom: '3%',
+                 //    containLabel: true
+                 //},
+                 grid: {
+                 x: 80,
+                 x2: 80,
+                 y: 60,
+                 y2: 200,
+                 },
+                 xAxis : [
+                     {
+                         type : 'category',
+                         axisLabel: {
+                                     rotate: 60,
+                                     interval: 0,
+                                             },
+                         
+                         data : {{ datakeys1|safe }},
+                         axisTick: {
+                             alignWithLabel: true,
+                             //interval: 0,
+                             //rotate: 60
+                         }
+                     }
+                 ],
+                 yAxis : [
+                     {
+                         type : 'value',
+                         axisLine: {
+                            lineStyle: {
+                                color: colors[0]
+                            },
+                        },
+                     },
+                     
+                 ],
+                 series : [
+                     {
+                         name:'发布次数',
+                         type:'bar',
+                         barWidth: '60%',
+                         label: {normal: {show: true, position: 'Top',offset:[3,-5]}},
+                         data: {{ datavalues1|safe }},
+                     },
+                 ]
+             };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+    </script>      
+    {% endblock jQuery %}
+
